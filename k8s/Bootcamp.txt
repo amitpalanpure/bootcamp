@@ -3,6 +3,14 @@ https://github.com/edureka-git/DevOpsClassCodes.git
 https://www.atlassian.com/git/tutorials/atlassian-git-cheatsheet
 
 https://pastebin.com/ztQLnXUS
+=============================================
+For running docker push from jenkins, following changes are must:-
+
+add jenkins user to Docker group
+add jenkins ALL= NOPASSWD: ALL (visudo)
+login docker hub in jenkins user
+
+=========================================
 
 FROM ubuntu 
 Maintainer "Amit"
