@@ -1,0 +1,89 @@
+https://github.com/edureka-git/DevOpsClassCodes.git
+
+https://www.atlassian.com/git/tutorials/atlassian-git-cheatsheet
+
+https://pastebin.com/ztQLnXUS
+
+FROM ubuntu 
+Maintainer "Amit"
+RUN apt-get update
+RUN apt-get install -y vim
+RUN apt-get install -y nginx
+RUN apt-get install -y git
+
+docker swarm join --token SWMTKN-1-3og9a1f64lp0lhm4r5yt0caqto9oxjvkkp8iuiw78rf8kcj8d5-02m0equiu0r7fcjcbj6g6kfv9 10.160.0.13:2377
+============================================================
+k8s
+#Yml for deplotyment
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: my-deplyoment
+spec:
+  replicas: 10
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: sample-container
+        image: nginx
+        ports:
+        - containerPort: 80
+
+==============================================
+# yml for creating pod and container 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sample-pod
+  labels:
+    env: prod
+    version: v1
+spec:
+  containers:
+  - name: sample-container
+    image: nginx
+    ports:
+    - containerPort: 80
+
+======================================================
+Bridge 
+
+Host
+
+=========================
+# yml for creating load balancer
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service-loadbalancer
+  labels:
+    service: my-service-loadbalancer
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    nodePort: 31222
+    protocol: TCP
+  selector:
+    app: my-app
+
+==========================================
+# yml to map port to nodes
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+  labels:
+    service: my-service
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    nodePort: 32222
+    protocol: TCP
+  selector:
+    app: my-app
