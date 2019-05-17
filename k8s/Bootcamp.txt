@@ -3,14 +3,11 @@ https://github.com/edureka-git/DevOpsClassCodes.git
 https://www.atlassian.com/git/tutorials/atlassian-git-cheatsheet
 
 https://pastebin.com/ztQLnXUS
-=============================================
-For running docker push from jenkins, following changes are must:-
-
-add jenkins user to Docker group
-add jenkins ALL= NOPASSWD: ALL (visudo)
-login docker hub in jenkins user
-
-=========================================
+====================================
+visudo
+add jenkins user to docker
+login to docker in jenkins users
+=======================================
 
 FROM ubuntu 
 Maintainer "Amit"
@@ -95,3 +92,69 @@ spec:
     protocol: TCP
   selector:
     app: my-app
+
+======================================
+
+etc/ansible# ls
+ansible.cfg  hosts  roles
+
+add nodes in hosts file
+
+ansible -m ping all
+
+ansible -m user -a "name=tcs password=password" all
+
+to check user in linux
+cd /etc/passwd
+===================================
+ansible -m setup servers
+========================
+---
+- hosts: all
+  become: true   #become root user and then start task
+  gather_facts: False
+  tasks:
+  - name: copy a file
+    copy: src=/tmp/abc  dest=/tmp/abc # copy is module
+  - name: create a user
+    user: name=tcs2 password=password # user module
+=====================
+ansible-playbook plaubook.yml --syntax-check            #to cehck syntax error
+==================
+ansible-playbook plaubook.yml --check          # dry run...good to run to check it will work fine.
+============================
+--
+- hosts: all
+  become: true
+  gather_facts: False
+  tasks:
+  - name: install git, ntp, htop
+    apt: name={{ item }} state=present   # present means to install, absent to uninstall
+    with_items:
+    - git
+    - ntp
+    - htop
+
+=========================================
+---
+- hosts: all
+  become: true
+  vars:
+    src_path: /root/ansible/index.html
+    dest_path: /var/www/html
+  gather_facts: false
+  tasks:
+  - name: install apache2
+    apt: name=apache2 state=present
+  - name: start and enable apache2
+    service: name=apache2 state=started enabled=True
+  - name: copy the index file
+    copy: src={{ src_path }} dest={{ dest_path }}/index.html
+    notify: restart_apache2  # calling handles
+
+
+  handlers:
+  - name: restart_apache2
+    service: name=apache2 state=restarted
+
+
